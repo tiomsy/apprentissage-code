@@ -81,7 +81,6 @@ function afficherBilan() {
   el.innerHTML = html;
 }
 
-afficherBilan();
 function afficherCamembert() {
   var totaux = { tactique: 0, strategie: 0, finale: 0, ouverture: 0, online: 0 };
 
@@ -119,6 +118,8 @@ function afficherCamembert() {
           }
         }
       }
+afficherBilan();
+afficherCamembert();      
     }
   });
 }
