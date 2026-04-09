@@ -76,3 +76,7 @@ h3 {
   border-left: 3px solid #222;
   padding-left: 16px;
 }
+small {
+  color: #888;
+  font-size: 12px;
+}
