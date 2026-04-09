@@ -65,3 +65,14 @@ th {
   background: #f0f0f0;
   font-weight: 500;
 }
+h3 {
+  font-size: 14px;
+  margin: 20px 0 8px;
+  color: #666;
+}
+
+.bloc-mois {
+  margin-bottom: 36px;
+  border-left: 3px solid #222;
+  padding-left: 16px;
+}
