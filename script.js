@@ -1,7 +1,5 @@
-// Au chargement de la page, on récupère les séances sauvegardées
 var seances = JSON.parse(localStorage.getItem("seances")) || [];
 
-// On affiche ce qu'on a déjà
 afficherListe();
 
 function enregistrer() {
@@ -14,16 +12,15 @@ function enregistrer() {
     return;
   }
 
-  // On crée un objet avec les trois valeurs
   var seance = { date: date, duree: duree, travail: travail };
-
-  // On l'ajoute au tableau
   seances.push(seance);
-
-  // On sauvegarde le tableau dans localStorage (converti en texte)
   localStorage.setItem("seances", JSON.stringify(seances));
+  afficherListe();
+}
 
-  // On rafraîchit l'affichage
+function supprimer(index) {
+  seances.splice(index, 1);
+  localStorage.setItem("seances", JSON.stringify(seances));
   afficherListe();
 }
 
@@ -31,7 +28,8 @@ function afficherListe() {
   var liste = document.getElementById("liste");
   liste.innerHTML = "";
 
-  seances.forEach(function(seance) {
-    liste.innerHTML += "<p>" + seance.date + " · " + seance.duree + " min · " + seance.travail + "</p>";
+  seances.forEach(function(seance, index) {
+    liste.innerHTML += "<p>" + seance.date + " · " + seance.duree + " min · " + seance.travail +
+      " <button onclick='supprimer(" + index + ")'>×</button></p>";
   });
 }
