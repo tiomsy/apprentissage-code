@@ -82,3 +82,43 @@ function afficherBilan() {
 }
 
 afficherBilan();
+function afficherCamembert() {
+  var totaux = { tactique: 0, strategie: 0, finale: 0, ouverture: 0, online: 0 };
+
+  seances.forEach(function(s) {
+    totaux[s.categorie] += s.duree;
+  });
+
+  var labels  = [];
+  var valeurs = [];
+
+  Object.keys(totaux).forEach(function(cat) {
+    if (totaux[cat] > 0) {
+      labels.push(categories[cat]);
+      valeurs.push(totaux[cat]);
+    }
+  });
+
+  new Chart(document.getElementById("camembert"), {
+    type: "pie",
+    data: {
+      labels: labels,
+      datasets: [{
+        data: valeurs,
+        backgroundColor: ["#3b82f6", "#22c55e", "#f59e0b", "#8b5cf6", "#ef4444"]
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { position: "bottom" },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.label + " : " + context.raw + " min";
+            }
+          }
+        }
+      }
+    }
+  });
+}
