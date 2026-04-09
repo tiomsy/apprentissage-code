@@ -49,12 +49,18 @@ function afficherDerniereSeance() {
   var el = document.getElementById("derniere-seance");
   if (!seances.length) { el.innerHTML = ""; return; }
 
-  var s = seances[seances.length - 1];
-  el.innerHTML =
-    "<h2>Dernière séance</h2>" +
-    "<p>" + s.date + " · " + categories[s.categorie] + " · " + s.duree + " min</p>" +
-    "<p>" + s.travail + "</p>" +
-    "<button onclick='supprimer(" + (seances.length - 1) + ")'>× Supprimer</button>";
+  var dernières = seances.slice(-5).reverse();
+  var html = "<h2>Dernières séances</h2>";
+
+  dernières.forEach(function(s, i) {
+    var index = seances.length - 1 - i;
+    html +=
+      "<p>" + s.date + " · " + categories[s.categorie] + " · " + s.duree + " min<br>" +
+      "<small>" + s.travail + "</small> " +
+      "<button onclick='supprimer(" + index + ")'>×</button></p>";
+  });
+
+  el.innerHTML = html;
 }
 
 function afficherBilanSemaine() {
