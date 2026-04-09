@@ -49,15 +49,21 @@ function afficherDerniereSeance() {
   var el = document.getElementById("derniere-seance");
   if (!seances.length) { el.innerHTML = ""; return; }
 
-  var dernières = seances.slice(-5).reverse();
+  var dernieres = seances.slice(-5).reverse();
   var html = "<h2>Dernières séances</h2>";
 
-  dernières.forEach(function(s, i) {
+  dernieres.forEach(function(s, i) {
     var index = seances.length - 1 - i;
     html +=
-      "<p>" + s.date + " · " + categories[s.categorie] + " · " + s.duree + " min<br>" +
-      "<small>" + s.travail + "</small> " +
-      "<button onclick='supprimer(" + index + ")'>×</button></p>";
+      "<div class='seance-card'>" +
+        "<div>" +
+          "<div class='seance-meta'>" + s.date + " · " + s.duree + " min " +
+            "<span class='badge badge-" + s.categorie + "'>" + categories[s.categorie] + "</span>" +
+          "</div>" +
+          "<div class='seance-title'>" + s.travail + "</div>" +
+        "</div>" +
+        "<button class='del-btn' onclick='supprimer(" + index + ")'>×</button>" +
+      "</div>";
   });
 
   el.innerHTML = html;
