@@ -21,48 +21,36 @@ function getMois(dateStr) {
 
 function afficherBilan() {
   var el = document.getElementById("bilan-complet");
-
   if (!seances.length) {
     el.innerHTML = "<p>Aucune séance enregistrée.</p>";
     return;
   }
-
-  // Grouper par mois → par semaine
   var parMois = {};
-
   seances.forEach(function(s) {
     var mois    = getMois(s.date);
     var semaine = getNumeroSemaine(s.date);
-
     if (!parMois[mois]) parMois[mois] = {};
     if (!parMois[mois][semaine]) parMois[mois][semaine] = {
       tactique: 0, strategie: 0, finale: 0, ouverture: 0, online: 0
     };
-
     parMois[mois][semaine][s.categorie] += s.duree;
   });
-
   var html = "";
-
   Object.keys(parMois).forEach(function(mois) {
-    var totalMois = 0;
-    var semaines  = parMois[mois];
+    var totalMois    = 0;
+    var semaines     = parMois[mois];
     var blocSemaines = "";
-
     Object.keys(semaines).forEach(function(semaine) {
-      var totaux      = semaines[semaine];
+      var totaux       = semaines[semaine];
       var totalSemaine = 0;
-      var lignes      = "";
-
+      var lignes       = "";
       Object.keys(totaux).forEach(function(cat) {
         if (totaux[cat] > 0) {
           lignes += "<tr><td>" + categories[cat] + "</td><td>" + totaux[cat] + " min</td></tr>";
           totalSemaine += totaux[cat];
         }
       });
-
       totalMois += totalSemaine;
-
       blocSemaines +=
         "<h3>Semaine " + semaine + " · " + totalSemaine + " min</h3>" +
         "<table>" +
@@ -70,34 +58,28 @@ function afficherBilan() {
           lignes +
         "</table>";
     });
-
     html +=
       "<div class='bloc-mois'>" +
         "<h2>" + mois + " · Total : " + totalMois + " min (" + Math.round(totalMois / 60 * 10) / 10 + "h)</h2>" +
         blocSemaines +
       "</div>";
   });
-
   el.innerHTML = html;
 }
 
 function afficherCamembert() {
   var totaux = { tactique: 0, strategie: 0, finale: 0, ouverture: 0, online: 0 };
-
   seances.forEach(function(s) {
     totaux[s.categorie] += s.duree;
   });
-
   var labels  = [];
   var valeurs = [];
-
   Object.keys(totaux).forEach(function(cat) {
     if (totaux[cat] > 0) {
       labels.push(categories[cat]);
       valeurs.push(totaux[cat]);
     }
   });
-
   new Chart(document.getElementById("camembert"), {
     type: "pie",
     data: {
@@ -118,8 +100,9 @@ function afficherCamembert() {
           }
         }
       }
-afficherBilan();
-afficherCamembert();      
     }
   });
 }
+
+afficherBilan();
+afficherCamembert();
