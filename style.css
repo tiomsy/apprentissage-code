@@ -312,3 +312,40 @@ small {
 #objectifs-form button {
   margin-top: 10px;
 }
+.data-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.data-actions button,
+.btn-import {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 14px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.data-actions button:hover,
+.btn-import:hover {
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+.btn-reset {
+  color: var(--red) !important;
+  border-color: var(--red) !important;
+  opacity: 0.6;
+}
+
+.btn-reset:hover {
+  opacity: 1 !important;
+  background: rgba(239,68,68,0.1) !important;
+}
