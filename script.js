@@ -143,6 +143,57 @@ function resetGlobal() {
   afficherDerniereSeance();
   afficherBilanSemaine();
 }
+function afficherStreak() {
+  var el = document.getElementById("streak");
+  if (!seances.length) { el.innerHTML = ""; return; }
 
+  // Récupérer les dates uniques des séances
+  var dates = seances.map(function(s) { return s.date; });
+  var uniques = dates.filter(function(d, i) { return dates.indexOf(d) === i; });
+  uniques.sort();
+
+  // Compter les jours consécutifs en partant d'aujourd'hui
+  var streak = 0;
+  var aujourdhui = new Date().toISOString().slice(0, 10);
+  var cursor = new Date(aujourdhui);
+
+  while (true) {
+    var dateStr = cursor.toISOString().slice(0, 10);
+    if (uniques.indexOf(dateStr) === -1) break;
+    streak++;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+
+  // Si pas de séance aujourd'hui, vérifier si la série était active hier
+  if (streak === 0) {
+    var hier = new Date();
+    hier.setDate(hier.getDate() - 1);
+    var hierStr = hier.toISOString().slice(0, 10);
+    cursor = new Date(hierStr);
+    while (true) {
+      var dateStr = cursor.toISOString().slice(0, 10);
+      if (uniques.indexOf(dateStr) === -1) break;
+      streak++;
+      cursor.setDate(cursor.getDate() - 1);
+    }
+  }
+
+var aujourdhuiDate = new Date(aujourdhui);
+var nbJoursMois = new Date(aujourdhuiDate.getFullYear(), aujourdhuiDate.getMonth() + 1, 0).getDate();
+var moisComplet = streak >= nbJoursMois;
+
+var emoji   = moisComplet ? "👑" : streak >= 6 ? "🔥" : streak >= 1 ? "⚡" : "▸";
+var message = streak === 0   ? "Pas encore de série en cours" :
+              moisComplet    ? "Mois complet — respect total !" :
+              streak === 1   ? "1 jour de suite" :
+              streak + " jours de suite";
+
+  el.innerHTML =
+    "<div class='streak-card'>" +
+      "<span class='streak-icon'>" + emoji + "</span>" +
+      "<span class='streak-count'>" + message + "</span>" +
+    "</div>";
+}
 afficherDerniereSeance();
 afficherBilanSemaine();
+afficherStreak();
